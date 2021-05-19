@@ -53,6 +53,10 @@ class User
     Reply.find_by_user_id(self.id)
   end
 
+  def followed_questions
+    QuestionFollow.followed_questions_for_user_id(self.id)
+  end
+
 end
 
 
@@ -98,6 +102,10 @@ class Question
 
   def replies
     Reply.find_by_question_id(self.id)
+  end
+
+  def followers
+    QuestionFollow.followers_for_question_id(self.id)
   end
 
 end
@@ -156,5 +164,79 @@ class Reply
     replies = Reply.find_by_question_id(self.questions_id)
     replies.select { |reply| reply.parent_id == self.id }
   end
+
+end
+
+class QuestionFollow
+
+  attr_accessor :id, :user_id, :questions_id
+
+  def self.followers_for_question_id(id)
+    data = QuestionsDatabase.instance.execute(<<-SQL, id)
+      SELECT
+        *
+      FROM
+        question_follows
+      JOIN users
+        ON users.id = question_follows.user_id
+      WHERE
+        questions_id = ?
+    SQL
+    data.map { |data| User.new(data)}
+  end
+
+  def self.followed_questions_for_user_id(id)
+    data = QuestionsDatabase.instance.execute(<<-SQL, id)
+      SELECT
+        *
+      FROM
+        question_follows
+      JOIN questions
+        ON questions.id = question_follows.questions_id
+      WHERE
+        user_id = ?
+    SQL
+    data.map { |data| Question.new(data)}
+  end
+
+  # def self.most_followed_questions(n)
+  #   data = QuestionsDatabase.instance.execute(<<-SQL, n)
+  #     SELECT
+  #       *
+  #     FROM
+  #       question_follows
+  #     JOIN questions
+  #       ON questions.id = question_follows.questions_id
+  #     GROUP BY questions_id
+  #     ORDER BY count(*) desc
+  #     LIMIT ?
+  #   SQL
+  #   # data.map {|data| Question.new(data)}
+
+  # end
+  def self.most_followed_questions(n)
+    data = QuestionsDatabase.instance.execute(<<-SQL, n)
+      SELECT
+        questions.id, title, body, author_id
+      FROM
+       questions
+      JOIN question_follows
+        ON questions.id = question_follows.questions_id
+      GROUP BY questions_id
+      ORDER BY count(*) desc
+      LIMIT ?
+    SQL
+    data.map {|data| Question.new(data)}
+  end
+
+  # def initialize(options)
+  #   @id = options['id']
+  #   @author_id = options['author_id']
+  #   @questions_id = options['questions_id']
+  #   @parent_id = options['parent_id']
+  #   @body = options['body']
+  # end
+
+
 
 end

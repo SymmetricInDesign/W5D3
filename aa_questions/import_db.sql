@@ -70,12 +70,19 @@ INSERT INTO
   questions (title, body, author_id)
 VALUES
   ('ORM', 'What is dis?', (SELECT id FROM users WHERE fname = 'Donnie')),
-  ('CSS', 'What is that?', (SELECT id FROM users WHERE fname = 'Sammy'));
+  ('CSS', 'What is that?', (SELECT id FROM users WHERE fname = 'Sammy')),
+  ('Question3', 'What is dog?', (SELECT id FROM users WHERE fname = 'Sammy')),
+  ('Question4', 'What is cat?', (SELECT id FROM users WHERE fname = 'Sammy'));
 
 INSERT INTO
   question_follows (user_id, questions_id)
 VALUES
   ((SELECT id FROM users WHERE fname = 'Donnie'), (SELECT id FROM questions WHERE title = 'CSS')),
+  ((SELECT id FROM users WHERE fname = 'Donnie'), (SELECT id FROM questions WHERE title = 'Question3')),
+  ((SELECT id FROM users WHERE fname = 'Donnie'), (SELECT id FROM questions WHERE title = 'Question4')),
+  ((SELECT id FROM users WHERE fname = 'Arthur'), (SELECT id FROM questions WHERE title = 'Question3')),
+  ((SELECT id FROM users WHERE fname = 'Sammy'), (SELECT id FROM questions WHERE title = 'Question3')),
+  ((SELECT id FROM users WHERE fname = 'Sammy'), (SELECT id FROM questions WHERE title = 'Question4')),
   ((SELECT id FROM users WHERE fname = 'Sammy'), (SELECT id FROM questions WHERE title = 'ORM'));
 
 INSERT INTO
