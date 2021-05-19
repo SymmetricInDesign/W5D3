@@ -72,3 +72,75 @@ h2 + .user_review {
     border-top: 1px solid black;
 }
 
+/* Make our list elements in the nav menu into inline-block elements. */
+nav li {
+  display: inline-block;
+}
+
+/* By default a tags are inline and cannot have any padding applied to them. First, change their display property to correct this default behavior. Then give the links in those list elements a padding on all sides of 20px */
+
+a {
+  display: inline-block;
+  padding: 20px;
+}
+
+/* Pick the correct display property to position the nav next to the logo. */
+
+/* #logo {
+  display: inline-block;
+} */
+
+nav {
+  display: inline-block;
+}
+
+/* Set our main content region by giving the body a width of 900px. */
+/* /* Use the classic centering trick margin: 0 auto to center the body. */
+body{
+  width: 900px;
+  margin: 0 auto;
+}
+
+/* Give the main section a 700px width and the aside a width of 180px. */
+aside {
+  width: 180px;
+  display: inline-block;
+  margin-right: 15px;
+  vertical-align: top;
+}
+
+section:first-of-type {
+  width: 700px;
+  display: inline-block;
+}
+
+/* Apply a display property to position the aside and section next to each other. Space them out with a 15px margin-right on the aside.
+If you find your ingredients list aligned to the bottom use the developer tools to find and correct the styling. */
+
+/* Space out the list elements in the ingredients list with a top and bottom margin of 15px. */
+
+.ingredients-list li {
+  margin: 15px 0;
+}
+
+/* Space out the directions the same way. */
+
+#directions-list li {
+  margin: 15px 0;
+}
+
+/* Use the display property to put input elements on their own row. At this point it probably looks better to remove the "Cooking Expertise" and "Rating" labels. */
+
+input {
+  display: block;
+}
+
+/* Space out the select element with margin and assign widths to the text input, select, and textarea to finish up our form. */
+
+select {
+  margin: 10px;
+}
+
+#name, select, textarea {
+  width: 300px;
+}
